@@ -13,10 +13,10 @@ Algorithm Plan
 5. Display suggestions.
 
 Module Division
-Member 1 – Trie implementation (insert, search)  
-Member 2 – Autocomplete suggestion logic  
-Member 3 – User input and interface  
-Member 4 – Dataset handling and testing
+Member 1 – Trie implementation (insert, search).
+Member 2 – Autocomplete suggestion logic.
+Member 3 – User input and interface.
+Member 4 – Dataset handling and testing.
 
 Development Timeline
 Week 1 – Planning, design, repository setup  
