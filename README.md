@@ -7,7 +7,7 @@
 4. Tanishka Sakore - 1012411238
 
 #Problem Discription 
-This project implements an Auto Complete System that suggests words based on the prefix entered by the user. This system improves typing efficiency by predicting possible word completions using an efficient data structure.
+Auto complete system implements an Auto Complete System that suggests words based on the prefix entered by the user. This system improves typing efficiency by predicting possible word completions using an efficient and relevant data structure.
 
 #Data Structure Design
 The project uses the Trie (Prefix Tree) data structure to store words and perform fast prefix searching. Each node represents a character and stores the links to child nodes.
