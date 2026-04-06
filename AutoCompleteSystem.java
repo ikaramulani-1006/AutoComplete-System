@@ -33,6 +33,7 @@ public class AutoCompleteSystem {
         }
         System.out.println("Ready!\n");
     }
+    //Method to insert a word into a Trie
        public void insert(String word) {
         TrieNode node = root;
         for (char c : word.toLowerCase().toCharArray()) {
@@ -41,7 +42,7 @@ public class AutoCompleteSystem {
         node.isEndOfWord = true;
         node.word = word;
     }
-    
+    // Method to get word suggestions based on a given prefix
     public List<String> getSuggestions(String prefix) {
         List<String> result = new ArrayList<>();
         
