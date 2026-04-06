@@ -59,3 +59,20 @@ public class AutoCompleteSystem {
         Collections.sort(result);
         return result.size() > 5 ? result.subList(0, 5) : result;
     }
+    // Recursively collecting words 
+    private void collectWords(TrieNode node, String current, List<String> result) {
+        if (node.isEndOfWord && node.word != null) {
+            result.add(node.word);
+        }
+        
+        //  Direct iteration 
+        List<Character> keys = new ArrayList<>(node.children.keySet());
+        Collections.sort(keys);
+        
+        for (char c : keys) {
+            if (result.size() < 5) {
+                TrieNode child = node.children.get(c);
+                collectWords(child, current + c, result);
+        }
+    }
+}
