@@ -76,3 +76,66 @@ public class AutoCompleteSystem {
         }
     }
 }
+public void Display() {
+        System.out.println("\n" + "_".repeat(50));
+        System.out.println("...AUTO COMPLETE SYSTEM...");
+        System.out.println("_".repeat(50));
+        System.out.println("1. Get Suggestions");
+        System.out.println("2. Add Word");
+        System.out.println("3. Test Speed");
+        System.out.println("4. Exit");
+        System.out.println("_".repeat(50));
+    }
+    
+    public static void main(String[] args) {
+        AutoCompleteSystem ac = new AutoCompleteSystem();
+        Scanner sc = new Scanner(System.in);
+        
+        while (true) {
+            ac.Display();
+            System.out.print("Enter choice (1-4): ");
+            
+            String choice = sc.nextLine().trim();
+            
+            if (choice.equals("1")) {   //gives suggestions
+                System.out.print("\n Prefix: ");
+                String prefix = sc.nextLine().trim();
+                List<String> suggestions = ac.getSuggestions(prefix);
+                
+                if (suggestions.isEmpty()) {
+                    System.out.println(" No matches");
+                } else {
+                    System.out.println("\n Top Suggestions:");
+                    System.out.println("-".repeat(30));
+                    for (int i = 0; i < suggestions.size(); i++) {
+                        System.out.println((i+1) + ". " + suggestions.get(i));
+                    }
+                }
+                
+            } else if (choice.equals("2")) {      //add word
+                System.out.print("\n New word: ");
+                String word = sc.nextLine().trim();
+                if (!word.isEmpty()) {
+                    ac.insert(word);
+                    System.out.println(" Added!");
+                }
+                
+            } else if (choice.equals("3")) {      // test speed
+                long start = System.currentTimeMillis();
+                ac.getSuggestions("app");
+                ac.getSuggestions("com");
+                ac.getSuggestions("dat");
+                long end = System.currentTimeMillis();
+                System.out.printf(" Speed: %d ms%n", (end - start));
+                
+            } else if (choice.equals("4")) {
+                System.out.println("\n Bye! Have a nice Day!");
+                break;
+            } else {
+                System.out.println(" Invalid!");
+            }
+            System.out.println();
+        }
+       sc.close();
+    }
+}
