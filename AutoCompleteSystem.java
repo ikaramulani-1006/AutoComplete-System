@@ -2,7 +2,8 @@
 import java.util.*;
 
 public class AutoCompleteSystem {
-    
+
+    // Trie structure to store words efficiently
     private TrieNode root;
     private String[] dictionary = new String[1000];
     private int dictSize = 0;
@@ -13,9 +14,10 @@ public class AutoCompleteSystem {
     
     public AutoCompleteSystem() {
         root = new TrieNode();
-        loadDataset();
+        loadDataset(); 
     }
-    
+
+    // Loads sample words and inserts them into Trie
     private void loadDataset() {
         String[] words = {
             "apple","application","apps","apply","appointment",
