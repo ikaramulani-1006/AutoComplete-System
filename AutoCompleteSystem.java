@@ -260,7 +260,7 @@ public void Display() {
                 System.out.println("Invalid choice!");
         }
 
-    } while (choice!=4);
+    } while (!choice.equals("4"));
 
     sc.close();
 }
