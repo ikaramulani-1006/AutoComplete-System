@@ -5,6 +5,7 @@
 2. Nirmayee Puranik - 1012411214
 3. Jagruti Shirsekar - 1012411220
 4. Tanishka Sakore - 1012411238
+5. Chinmay Kulkarni - 1012411215
 
 ##Problem Discription:  
 Auto complete system is designed to suggests words based on the prefix entered by the user. This system improves typing efficiency by predicting possible word completions using an efficient and relevant data structure.
