@@ -9,7 +9,7 @@ public class AutoCompleteSystem {
         boolean isEndOfWord =false;
         String word =null;
     }
-    private TrieNode root;
+    public TrieNode root;
 
     // Constructor- used to initialize Trie and load data
     public AutoCompleteSystem() {
