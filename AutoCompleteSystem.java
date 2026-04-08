@@ -199,7 +199,7 @@ public class AutoCompleteSystem {
         return index; 
     }
 }
-public void Display() {
+public void Display() {    
         System.out.println("\n" + "_".repeat(50));
         System.out.println("...AUTO COMPLETE SYSTEM...");
         System.out.println("_".repeat(50));
@@ -210,7 +210,7 @@ public void Display() {
         System.out.println("_".repeat(50));
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) {                // main starts
     AutoCompleteSystem ac = new AutoCompleteSystem();
     Scanner sc = new Scanner(System.in);
     String choice;
@@ -237,13 +237,13 @@ public void Display() {
                 ac.delete(sc.nextLine());
                 break;
             case "4":
-                System.out.println("Bye!");
+                System.out.println("Bye! Have a great day!");
                 break;
             default:
                 System.out.println("Invalid choice!");
         }
 
-    } while (!choice.equals("4"));
+    } while (choice!=4);
 
     sc.close();
 }
