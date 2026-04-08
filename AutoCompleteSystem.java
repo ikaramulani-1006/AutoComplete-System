@@ -58,7 +58,7 @@ public class AutoCompleteSystem {
                 break;
             }
         }
-         if (qidx >= 0) {
+        if (qidx >= 0) {
             queryCount[qidx]++;       // incrementing frequency of this query
         } else if (querySize < queries.length) {        // storing new query
             queries[querySize] = prefix;
@@ -87,7 +87,7 @@ public class AutoCompleteSystem {
             }
         }
         // Partition function
-        private int partition(WordScore[] arr, int low, int high) {
+        public int partition(WordScore[] arr, int low, int high) {
             WordScore pivot = arr[high]; // it is choosing last element as pivot
             int i = low - 1;
         
@@ -114,22 +114,37 @@ public class AutoCompleteSystem {
         }
         return res; 
     }
+    // Traverseing trie to find the node corresponding to the end of the prefix
+    private int collectWords(TrieNode node, String prefix, int depth, WordScore[] arr) {
+        if (node == null) 
+            return 0;      // checking if prefix path does not exist
+        int count = 0;
     
-    // Recursively collect all complete words starting from currnt trie Node 
-    private void collectWords(TrieNode node, String current, List<String> result) {
+        TrieNode n = node;
+        // Traversing the trie according to the prefix characters
+        for (int i = 0; i < prefix.length(); i++) {
+            int index = prefix.charAt(i) - 'a';       // map character to index
+            if (n.children[index] == null) 
+                return 0;     // if prefix not found
+            n = n.children[index];          // move it to next node
+        }
+        // Collecting all words under this prefix node
+        return collectFromNode(n, arr, 0);
+    }
+    
+    // Recursively collect all words starting from a trie node
+    public int collectFromNode(TrieNode node, WordScore[] arr, int index) {
         if (node.isEndOfWord && node.word != null) {
-            result.add(node.word);
+            arr[index++] = new WordScore(node.word, node.frequency); // it stores word and frequency
         }
-        
-        //  Extracyt all posible next characters
-        List<Character> keys = new ArrayList<>(node.children.keySet());
-        Collections.sort(keys);  // sort Alphabetically
-        
-        for (char c : keys) {
-            if (result.size() < 5) {
-                TrieNode child = node.children.get(c);
-                collectWords(child, current + c, result);
+    
+        // Recursively traverse all 26 children i.e. A-Z
+        for (int i = 0; i < 26; i++) {
+            if (node.children[i] != null) {
+                index = collectFromNode(node.children[i], arr, index); // it collects words from child
+            }
         }
+        return index; 
     }
 }
 public void Display() {
