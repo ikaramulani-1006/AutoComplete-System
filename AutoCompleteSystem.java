@@ -148,7 +148,7 @@ public class AutoCompleteSystem {
             }
         }*/
         // sorting words by freq using quick sort
-        Public void quickSort(WordScore[] arr, int low, int high) {
+        public void quickSort(WordScore[] arr, int low, int high) {
             if (low < high) {
                 int pi = partition(arr, low, high);
                 quickSort(arr, low, pi - 1);  // sorting left part
@@ -215,52 +215,53 @@ public class AutoCompleteSystem {
         }
         return index; 
     }
-}
-public void Display() {    
-        System.out.println("\n" + "_".repeat(50));
-        System.out.println("...AUTO COMPLETE SYSTEM...");
-        System.out.println("_".repeat(50));
-        System.out.println("1. Get Suggestions");
-        System.out.println("2. Add Word");
-        System.out.println("3. Test Speed");
-        System.out.println("4. Exit");
-        System.out.println("_".repeat(50));
-    }
-    
-    public static void main(String[] args) {                // main starts
-    AutoCompleteSystem ac = new AutoCompleteSystem();
-    Scanner sc = new Scanner(System.in);
-    String choice;
 
-    do {
-        System.out.println("\n1.Search  2.Add  3.Delete  4.Exit");
-        System.out.print("Choice: ");
-        choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                System.out.print("Prefix: ");
-                String[] res = ac.getSuggestions(sc.nextLine());
-                for (int i = 0; i < res.length; i++) {
-                    System.out.println(res[i]);
-                }
-                break;
-            case "2":
-                System.out.print("Word: ");
-                ac.insert(sc.nextLine());
-                break;
-            case "3":
-                System.out.print("Word: ");
-                ac.delete(sc.nextLine());
-                break;
-            case "4":
-                System.out.println("Bye! Have a great day!");
-                break;
-            default:
-                System.out.println("Invalid choice!");
+    public void Display() {    
+            System.out.println("\n" + "_".repeat(50));
+            System.out.println("...AUTO COMPLETE SYSTEM...");
+            System.out.println("_".repeat(50));
+            System.out.println("1. Get Suggestions");
+            System.out.println("2. Add Word");
+            System.out.println("3. Test Speed");
+            System.out.println("4. Exit");
+            System.out.println("_".repeat(50));
         }
-
-    } while (!choice.equals("4"));
-
-    sc.close();
+        
+        public static void main(String[] args) {                // main starts
+        AutoCompleteSystem ac = new AutoCompleteSystem();
+        Scanner sc = new Scanner(System.in);
+        String choice;
+    
+        do {
+            System.out.println("\n1.Search  \n2.Add  \n3.Delete  \n4.Exit");
+            System.out.print("Choice: ");
+            choice = sc.nextLine();
+    
+            switch (choice) {
+                case "1":
+                    System.out.print("Prefix: ");
+                    String[] res = ac.getSuggestions(sc.nextLine());
+                    for (int i = 0; i < res.length; i++) {
+                        System.out.println(res[i]);
+                    }
+                    break;
+                case "2":
+                    System.out.print("Word: ");
+                    ac.insert(sc.nextLine());
+                    break;
+                case "3":
+                    System.out.print("Word: ");
+                    ac.delete(sc.nextLine());
+                    break;
+                case "4":
+                    System.out.println("Bye! Have a great day!");
+                    break;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+    
+        } while (!choice.equals("4"));
+    
+        sc.close();
+    }
 }
