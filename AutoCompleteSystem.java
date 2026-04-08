@@ -3,39 +3,36 @@ import java.util.*;
 
 public class AutoCompleteSystem {
     
-    // Trie node structure 
-    static class TrieNode {
-        Map<Character, TrieNode> children = new HashMap<>();
-        boolean isEndOfWord =false;
-        String word =null;
-    }
-    public TrieNode root;
-
-    // Constructor- used to initialize Trie and load data
+    private TrieNode root;
+    private String[] dictionary = new String[1000];
+    private int dictSize = 0;
+    private int totalQueries = 0;
+    private String[] queries = new String[1000];
+    private int[] queryCount = new int[1000];
+    private int querySize = 0;
+    
     public AutoCompleteSystem() {
         root = new TrieNode();
         loadDataset();
     }
-
-    // Method to load sample words into Trie
+    
     private void loadDataset() {
         String[] words = {
-            "apple", "application", "apps", "apply", "appointment",
-            "computer", "company", "communication", "community", "complete",
-            "data", "database", "development", "developer", "design",
-            "education", "email", "enterprise", "environment", "error",
-            "function", "file", "folder", "format", "framework",
-            "google", "github", "game", "graphics", "group",
-            "hello", "help", "home", "html", "http",
-            "internet", "information", "interface", "image", "input",
-            "java", "javascript", "json", "job", "join",
-            "keyboard", "knowledge", "key", "kit", "known"
+            "apple","application","apps","apply","appointment",
+            "computer","company","communication","community","complete",
+            "data","database","development","developer","design",
+            "education","email","enterprise","environment","error",
+            "function","file","folder","format","framework",
+            "google","github","game","graphics","group",
+            "hello","help","home","html","http",
+            "internet","information","interface","image","input",
+            "java","javascript","json","job","join",
+            "keyboard","knowledge","key","kit","known"
         };
-        System.out.println(" Loading " + words.length + " words...");
-        for (String word : words) {
-            insert(word);
+        for (int i = 0; i < words.length; i++) {
+            insert(words[i]);
         }
-        System.out.println("Ready!\n");
+        System.out.println(words.length + " words loaded.\n");
     }
     
     //Method to insert a word into a Trie
