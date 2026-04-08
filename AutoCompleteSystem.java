@@ -1,6 +1,23 @@
 // This is Auto Complete System - 'Helper' which will suggest words based on the prefix enterd by the user.
 import java.util.*;
 
+static class TrieNode {
+    TrieNode[] children = new TrieNode[26];
+    boolean isEndOfWord = false;
+    String word = null;
+    int frequency = 0;
+}
+
+static class WordScore {
+    String word;
+    int score;
+
+    WordScore(String w, int s) {
+        word = w;
+        score = s;
+    }
+}
+
 public class AutoCompleteSystem {
 
     // Trie structure to store words efficiently
