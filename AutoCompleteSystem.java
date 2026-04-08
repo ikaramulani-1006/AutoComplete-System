@@ -39,14 +39,67 @@ public class AutoCompleteSystem {
     }
     
     //Method to insert a word into a Trie
-       public void insert(String word) {
+    public void insert(String word) {
+        for (int i = 0; i < dictSize; i++) {
+            if (dictionary[i].equals(word)) return;
+        }
+    
+        if (dictSize < dictionary.length) {
+            dictionary[dictSize++] = word;
+        }
+    
         TrieNode node = root;
-        for (char c : word.toLowerCase().toCharArray()) {
-            node = node.children.computeIfAbsent(c, k -> new TrieNode());
+        word = word.toLowerCase();
+        for (int i = 0; i < word.length(); i++) {
+            int index = word.charAt(i) - 'a';
+            if (node.children[index] == null) {
+                node.children[index] = new TrieNode();
+            }
+            node = node.children[index];
         }
         node.isEndOfWord = true;
         node.word = word;
+        node.frequency = 1;
     }
+    
+    // DELETE
+    public void delete(String word) {
+        deleteHelper(root, word.toLowerCase(), 0);
+        for (int i = 0; i < dictSize; i++) {
+            if (dictionary[i].equals(word)) {
+                for (int j = i; j < dictSize - 1; j++) {
+                    dictionary[j] = dictionary[j+1];
+                }
+                dictSize--;
+                break;
+            }
+        }
+    }
+    
+    public boolean deleteHelper(TrieNode node, String word, int depth) {
+        if (node == null) return false;
+    
+        if (depth == word.length()) {
+            if (!node.isEndOfWord) return false;
+            node.isEndOfWord = false;
+            return isEmpty(node);
+        }
+    
+        int index = word.charAt(depth) - 'a';
+        if (deleteHelper(node.children[index], word, depth + 1)) {
+            node.children[index] = null;
+            return !node.isEndOfWord && isEmpty(node);
+        }
+        return false;
+    }
+    
+    public boolean isEmpty(TrieNode node) {
+        for (int i = 0; i < 26; i++) {
+            if (node.children[i] != null) return false;
+        }
+        return true;
+    }
+
     // Method to get word suggestions based on a given prefix.
     public String[] getSuggestions(String prefix) {
         totalQueries++;
