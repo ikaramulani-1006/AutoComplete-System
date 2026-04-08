@@ -47,24 +47,74 @@ public class AutoCompleteSystem {
         node.isEndOfWord = true;
         node.word = word;
     }
-    // Method to get word suggestions based on a given prefix
-    public List<String> getSuggestions(String prefix) {
-        List<String> result = new ArrayList<>();
-        
-        // Step 1: Find prefix node
-        TrieNode node = root;
-        for (char c : prefix.toLowerCase().toCharArray()) {
-            if (!node.children.containsKey(c)) {
-                return result; 
+    // Method to get word suggestions based on a given prefix.
+    public String[] getSuggestions(String prefix) {
+        totalQueries++;
+
+        int qidx = -1;       // checking if it was searched before to increase freq count.
+        for (int i = 0; i < querySize; i++) {
+            if (queries[i].equals(prefix)) {      // checking if prefix was found in previous search.
+                qidx = i;
+                break;
             }
-            node = node.children.get(c);
         }
+         if (qidx >= 0) {
+            queryCount[qidx]++;       // incrementing frequency of this query
+        } else if (querySize < queries.length) {        // storing new query
+            queries[querySize] = prefix;
+            queryCount[querySize] = 1;
+            querySize++;
+        }
+        // temp array to collect extra words 
+        WordScore[] temp = new WordScore[50];
+        int count = collectWords(root, prefix.toLowerCase(), 0, temp);
+        /*for (int i = 0; i < count - 1; i++) {    //sorting words by freq using bubble sort
+        for (int j = i + 1; j < count; j++) {
+            if (temp[i].score < temp[j].score || 
+               (temp[i].score == temp[j].score && temp[i].word.compareTo(temp[j].word) > 0)) {
+                // Swap if second word has higher score or same score but lexicographically smaller
+                WordScore t = temp[i]; 
+                temp[i] = temp[j]; 
+                temp[j] = t;
+            }
+        }*/
+        // sorting words by freq using quick sort
+        Public void quickSort(WordScore[] arr, int low, int high) {
+            if (low < high) {
+                int pi = partition(arr, low, high);
+                quickSort(arr, low, pi - 1);  // sorting left part
+                quickSort(arr, pi + 1, high); // sorting right part
+            }
+        }
+        // Partition function
+        private int partition(WordScore[] arr, int low, int high) {
+            WordScore pivot = arr[high]; // it is choosing last element as pivot
+            int i = low - 1;
         
-        // Step 2: Collect words 
-        collectWords(node, prefix, result);
-        Collections.sort(result);
-        return result.size() > 5 ? result.subList(0, 5) : result;
+            for (int j = low; j < high; j++) {
+                if (arr[j].score > pivot.score || 
+                   (arr[j].score == pivot.score && arr[j].word.compareTo(pivot.word) < 0)) {
+                    i++;
+                    WordScore temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+            // Swaping pivot to correct position
+            WordScore temp = arr[i + 1];
+            arr[i + 1] = arr[high];
+            arr[high] = temp;
+            return i + 1;
+        }
+        // Limiting suggestions to maximum 15 words
+        int limit = count < 15 ? count : 15;
+        String[] res = new String[limit];
+        for (int i = 0; i < limit; i++) {
+            res[i] = temp[i].word;   // copying sorted words to result array
+        }
+        return res; 
     }
+    
     // Recursively collect all complete words starting from currnt trie Node 
     private void collectWords(TrieNode node, String current, List<String> result) {
         if (node.isEndOfWord && node.word != null) {
