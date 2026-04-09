@@ -219,3 +219,167 @@ class AutoComplete {
         }
     }
 }
+
+class DatasetManager {
+    static final String[] DEFAULT_WORDS = {
+        "apple","application","apply","apt","approve","april",
+        "ball","bat","batman","bath","battle","balance",
+        "cat","car","card","care","carry","call","camera",
+        "dog","door","dome","data","dark","dance",
+        "elephant","enter","email","engine","error",
+        "flower","fly","flag","format","frame",
+        "google","graph","green","great","grow",
+        "happy","hard","hash","head","help","hero",
+        "internet","input","install","image","index",
+        "java","join","judge","jump","just",
+        "key","king","kitchen","knowledge",
+        "language","laptop","large","learn","level",
+        "module","map","matrix","menu","method",
+        "node","network","name","null","number",
+        "object","open","output","operator",
+        "python","prefix","print","program","process",
+        "queue","query","quick","quit",
+        "root","run","return","real","read",
+        "stack","string","search","system","sort","speed",
+        "tree","trie","test","time","text","table",
+        "user","update","upload","use","unit",
+        "value","variable","vector","valid",
+        "word","write","window","work","web"
+    };
+
+    static int loadDefaults(Trie trie) {
+        int count = 0;
+        for (int i = 0; i < DEFAULT_WORDS.length; i++) {
+            if (trie.insert(DEFAULT_WORDS[i])) count++;
+        }
+        return count;
+    }
+
+public class AutoCompleteSystem{
+    static java.util.Scanner sc = new java.util.Scanner(System.in);
+    static String sortMode = "alpha";
+
+    public static void main(String[] args) {
+        Trie trie = new Trie();
+        AutoComplete ac = new AutoComplete(trie);
+
+        int loaded = DatasetManager.loadDefaults(trie);
+        System.out.println(" Successfully! Loaded " + loaded + " words into Trie.");
+
+        while (true) {
+            printMenu(trie);
+            System.out.print(" Enter choice: ");
+            String choice = sc.nextLine().trim();
+
+            switch (choice) {
+                case "1": 
+                    menuAutocomplete(ac); 
+                    break;
+                case "2": 
+                    menuSearch(trie); 
+                    break;
+                case "3": 
+                    menuInsert(trie); 
+                    break;
+                case "4": 
+                    menuDelete(trie); 
+                    break;
+                case "5": 
+                    menuDisplay(ac); 
+                    break;
+                case "6": 
+                    menuStats(trie, ac); 
+                    break;
+                case "7":
+                    sortMode = sortMode.equals("alpha") ? "frequency" : "alpha";
+                    System.out.println(" Sort mode: " + sortMode.toUpperCase());
+                    break;
+                case "8": 
+                    menuHelp(); 
+                    break;
+                case "9":
+                    System.out.println("\n Have a nice day ^_^ !\nGreat time working with you.\n");
+                    return;
+                default:
+                    System.out.println(" Invalid choice.!!! Enter 0-9.");
+            }
+        }
+    }
+    
+    static void printMenu(Trie trie) {
+        System.out.println("\n" + "=".repeat(55));
+        System.out.println(" AUTO COMPLETE SYSTEM — Trie Data Structure");
+        System.out.println("=".repeat(55));
+        System.out.println(" Words: " + trie.wordCount + " | Sort: " + sortMode.toUpperCase());
+        System.out.println("\n MAIN MENU");
+        System.out.println(" " + "-".repeat(40));
+        System.out.println(" 1. Get Autocomplete Suggestions");
+        System.out.println(" 2. Search Exact Word");
+        System.out.println(" 3. Insert New Word");
+        System.out.println(" 4. Delete a Word");
+        System.out.println(" 5. Display All Words");
+        System.out.println(" 6. Trie Statistics");
+        System.out.println(" 7. Toggle Sort Mode [current: " + sortMode + "]");
+        System.out.println(" 8. Help / Instructions");
+        System.out.println(" 9. Exit");
+        System.out.println(" " + "_".repeat(40));
+    }
+
+    static void menuAutocomplete(AutoComplete ac) {
+        System.out.println("\n... Autocomplete Search ...");
+        System.out.print(" Enter prefix: ");
+        String prefix = sc.nextLine().trim();
+        if (prefix.isEmpty()) { 
+            System.out.println(" Prefix cannot be empty.!!!"); 
+            return; 
+        }
+
+        System.out.print(" Max suggestions (default 10): ");
+        String maxIn = sc.nextLine().trim();
+        int max = 10;
+        try { 
+            if (!maxIn.isEmpty()) max = Integer.parseInt(maxIn); 
+        } catch (Exception e) { 
+            max = 10; 
+        }
+
+        String[] suggestions = ac.getSuggestions(prefix, max, sortMode);
+        System.out.println();
+        if (suggestions.length == 0) {
+            System.out.println(" [!] No suggestions found for '" + prefix + "'.");
+        } else {
+            System.out.println(" Suggestions for '" + prefix + "' (" + suggestions.length + " found):");
+            System.out.println(" " + "-".repeat(35));
+            for (int i = 0; i < suggestions.length; i++) {
+                System.out.printf(" %3d. %s%n", i + 1, suggestions[i]);
+            }
+
+            System.out.print("\n Select word to add in suggestion or Enter to skip: ");
+            String pick = sc.nextLine().trim();
+            if (pick.matches("\\d+")) {
+                int idx = Integer.parseInt(pick) - 1;
+                if (idx >= 0 && idx < suggestions.length) {
+                    ac.recordSearch(suggestions[idx]);
+                    System.out.println(" Great! Suggestion Recorded  Successfully'" + suggestions[idx] + "'.");
+                }
+            }
+        }
+    }
+
+    static void menuSearch(Trie trie) {
+        System.out.println("\n... Exact Word Search ...");
+        System.out.print(" Enter word: ");
+        String word = sc.nextLine().trim().toLowerCase();
+        if (word.isEmpty()) { 
+            System.out.println(" Input cannot be empty.!!!"); 
+            return; 
+        }
+        if (trie.search(word)) {
+            System.out.println(" Great! '" + word + "' EXISTS in the Trie.");
+        } else {
+            System.out.println(" Sorry! '" + word + "' NOT found.");
+            if (trie.startsWith(word)) {
+                System.out.println(" Sorry! But words starting with '" + word + "' exist.");
+            }
+        }
+    }
