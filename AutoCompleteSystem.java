@@ -5,6 +5,7 @@
 //1012411215: Chinmay
 
 import java.util.*;
+//We are Using HashMap for children 
 class TrieNode {
     java.util.Map<Character, TrieNode> children = new java.util.HashMap<>();
     boolean isEnd = false;
