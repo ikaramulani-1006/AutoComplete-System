@@ -383,3 +383,140 @@ public class AutoCompleteSystem{
             }
         }
     }
+ static void menuInsert(Trie trie) {
+        System.out.println("\n... Insert Word ...");
+        System.out.print(" Enter word: ");
+        String word = sc.nextLine().trim().toLowerCase();
+        if (word.isEmpty()) { 
+            System.out.println(" Input cannot be empty.!!!"); 
+            return; 
+        }
+        if (!word.matches("[a-z]+")) { 
+            System.out.println(" Only letters allowed!!!."); 
+            return; 
+        }
+        if (trie.search(word)) {
+            System.out.println(" Sorry! '" + word + "' already exists.");
+        } else {
+            trie.insert(word);
+            System.out.println(" Great! '" + word + "' inserted. Total: " + trie.wordCount);
+        }
+    }
+
+    static void menuDelete(Trie trie) {
+        System.out.println("\n... Delete Word ...");
+        System.out.print(" Enter word: ");
+        String word = sc.nextLine().trim().toLowerCase();
+        if (word.isEmpty()) { 
+            System.out.println(" Input cannot be empty.!!!"); 
+            return; 
+        }
+        if (trie.delete(word)) {
+            System.out.println(" Great!  '" + word + "' deleted. Total: " + trie.wordCount);
+        } else {
+            System.out.println(" Sorry! '" + word + "' not found.");
+        }
+    }
+
+    static void menuDisplay(AutoComplete ac) {
+        System.out.println("\n... All Words in Trie...");
+        String[] words = ac.getAllWords();
+        if (words.length == 0) { 
+            System.out.println(" Trie is empty!!!."); 
+            return; 
+        }
+        System.out.println(" Total: " + words.length + "\n");
+        for (int i = 0; i < words.length; i++) {
+            System.out.printf(" %-18s", words[i]);
+            if ((i + 1) % 4 == 0) System.out.println();
+        }
+        System.out.println();
+    }
+
+   static void menuDataset(Trie trie, AutoComplete ac) {
+        System.out.println("\n___ Dataset Management___");
+        System.out.println(" 1. Load default word list");
+        System.out.println(" 2. Load from file");
+        System.out.println(" 3. Save to file");
+        System.out.println(" 4. Reset Trie");
+        System.out.println(" 0. Back");
+        System.out.print(" Choice: ");
+        String ch = sc.nextLine().trim();
+        switch (ch) {
+            case "1":
+                System.out.println(" Loaded " + DatasetManager.loadDefaults(trie) + " new words.");
+                break;
+            case "2":
+                System.out.print(" Filename: ");
+                int cnt = DatasetManager.loadFromFile(trie, sc.nextLine().trim());
+                if (cnt >= 0) System.out.println(" Loaded " + cnt + " words.");
+                break;
+            case "3":
+                System.out.print(" Save filename: ");
+                DatasetManager.saveToFile(ac, sc.nextLine().trim());
+                               break;
+            case "4":
+                System.out.print(" Confirm reset? (yes/no): ");
+                if (sc.nextLine().trim().equalsIgnoreCase("yes")) {
+                    trie.root = new TrieNode();
+                    trie.wordCount = 0;
+                    System.out.println(" Trie reset.");
+                } else {
+                    System.out.println(" Cancelled.");
+                }
+                break;
+            case "10":
+                break;
+            default:
+                System.out.println("Invalid option!!!. Choose a valid Option");
+        }
+    } 
+
+    static void menuStats(Trie trie, AutoComplete ac) {
+        System.out.println("\n___Trie Statistics___");
+        String[] words = ac.getAllWords();
+        if (words.length == 0) {
+            System.out.println(" Trie is empty!!!.");
+            return;
+        }
+        
+        // for finding longest/shortest word in whole array
+        String longest = words[0];
+        String shortest = words[0];
+        int totalLength = 0;
+        
+        for (int i = 0; i < words.length; i++) {
+            totalLength += words[i].length();
+            if (words[i].length() > longest.length()) {
+                longest = words[i];
+            }
+            if (words[i].length() < shortest.length()) {
+                shortest = words[i];
+            }
+        }
+        
+        double avg = (double) totalLength / words.length;
+        
+        System.out.println(" Total words : " + trie.wordCount);
+        System.out.println(" Longest word : " + longest + " (" + longest.length() + " chars)");
+        System.out.println(" Shortest word : " + shortest + " (" + shortest.length() + " chars)");
+        System.out.printf(" Average word length : %.2f chars%n", avg);
+    }
+
+    static void menuHelp() {
+        System.out.println("\n___ Help___");
+        System.out.println(" 1. Autocomplete suggestions for a prefix");
+        System.out.println(" 2. Check if exact word exists");
+        System.out.println(" 3. Add new word to Trie");
+        System.out.println(" 4. Remove word from Trie");
+        System.out.println(" 5. List all stored words");        
+        System.out.println(" 6. View Trie statistics");
+        System.out.println(" 7. Toggle sort: alpha or frequency");
+        System.out.println(" 8. Show this help");
+        System.out.println(" 9. Exit");
+        System.out.println(" 6. Load / Save / Reset dataset");
+        System.out.println("\n File format (option 6): one word per line (.txt)");
+        System.out.println(" Sort frequency: select a word after searching");
+        System.out.println(" to increase its frequency rank.");
+    }
+}
