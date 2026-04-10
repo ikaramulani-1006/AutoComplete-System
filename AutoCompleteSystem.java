@@ -1,9 +1,5 @@
-// 1012411204:Ikara 
-//1012411214: Nirmayee
-//1012411220: Jagruti
-//1012411238: Tanishka
-//1012411215: Chinmay
 
+//1012411238: Tanishka
 import java.util.*;
 //We are Using HashMap for children 
 class TrieNode {
@@ -83,6 +79,7 @@ class Trie {
         return shouldDelete && !node.isEnd && node.children.isEmpty();
     }
 }
+// 1012411204:Ikara
 class AutoComplete {
     Trie trie;
 
@@ -219,7 +216,7 @@ class AutoComplete {
         }
     }
 }
-
+//1012411220: Jagruti
 class DatasetManager {
     static final String[] DEFAULT_WORDS = {
         "apple","application","apply","apt","approve","april",
@@ -383,6 +380,7 @@ public class AutoCompleteSystem{
             }
         }
     }
+    //1012411214: Nirmayee
  static void menuInsert(Trie trie) {
         System.out.println("\n... Insert Word ...");
         System.out.print(" Enter word: ");
@@ -432,7 +430,7 @@ public class AutoCompleteSystem{
         }
         System.out.println();
     }
-
+    //1012411215: Chinmay
    static void menuDataset(Trie trie, AutoComplete ac) {
         System.out.println("\n___ Dataset Management___");
         System.out.println(" 1. Load default word list");
@@ -471,7 +469,7 @@ public class AutoCompleteSystem{
                 System.out.println("Invalid option!!!. Choose a valid Option");
         }
     } 
-
+    //1012411214: Nirmayee
     static void menuStats(Trie trie, AutoComplete ac) {
         System.out.println("\n___Trie Statistics___");
         String[] words = ac.getAllWords();
