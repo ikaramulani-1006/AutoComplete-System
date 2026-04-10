@@ -1,3 +1,4 @@
+// This is Auto Complete System - 'Helper' which will suggest words based on the prefix enterd by the user.
 
 //1012411238: Tanishka
 import java.util.*;
