@@ -432,44 +432,6 @@ public class AutoCompleteSystem{
         System.out.println();
     }
     //1012411215: Chinmay
-   static void menuDataset(Trie trie, AutoComplete ac) {
-        System.out.println("\n___ Dataset Management___");
-        System.out.println(" 1. Load default word list");
-        System.out.println(" 2. Load from file");
-        System.out.println(" 3. Save to file");
-        System.out.println(" 4. Reset Trie");
-        System.out.println(" 0. Back");
-        System.out.print(" Choice: ");
-        String ch = sc.nextLine().trim();
-        switch (ch) {
-            case "1":
-                System.out.println(" Loaded " + DatasetManager.loadDefaults(trie) + " new words.");
-                break;
-            case "2":
-                System.out.print(" Filename: ");
-                int cnt = DatasetManager.loadFromFile(trie, sc.nextLine().trim());
-                if (cnt >= 0) System.out.println(" Loaded " + cnt + " words.");
-                break;
-            case "3":
-                System.out.print(" Save filename: ");
-                DatasetManager.saveToFile(ac, sc.nextLine().trim());
-                               break;
-            case "4":
-                System.out.print(" Confirm reset? (yes/no): ");
-                if (sc.nextLine().trim().equalsIgnoreCase("yes")) {
-                    trie.root = new TrieNode();
-                    trie.wordCount = 0;
-                    System.out.println(" Trie reset.");
-                } else {
-                    System.out.println(" Cancelled.");
-                }
-                break;
-            case "10":
-                break;
-            default:
-                System.out.println("Invalid option!!!. Choose a valid Option");
-        }
-    } 
     //1012411214: Nirmayee
     static void menuStats(Trie trie, AutoComplete ac) {
         System.out.println("\n___Trie Statistics___");
